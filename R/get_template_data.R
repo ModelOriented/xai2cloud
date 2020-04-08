@@ -2,12 +2,13 @@
 #'
 #' @param exp_name Explainers object or an .rda file name of an explainer
 #' @param title Title to be seen in Swagger
-#'
 #' @return A list of parameters to fill the template
+#' @export
 get_template_data <- function(exp_name, title){
   UseMethod("get_template_data")
 }
 
+#' @export
 get_template_data.default <- function(exp_name, title = "xai2cloud"){
   # Correct extension check
   # Template parameter: explain_name - explainer's .rda filename
@@ -119,6 +120,7 @@ get_template_data.default <- function(exp_name, title = "xai2cloud"){
   return(data)
 }
 
+#' @export
 get_template_data.explainer <- function(exp_name, title = "xai2cloud"){
 
   # Creating a .rda file name
