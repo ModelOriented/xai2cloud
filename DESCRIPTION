@@ -22,6 +22,7 @@ Suggests:
     knitr,
     rmarkdown,
     randomForest,
-    gbm
+    gbm,
+    covr
 URL: https://github.com/Adamoso/xai2cloud
 VignetteBuilder: knitr
