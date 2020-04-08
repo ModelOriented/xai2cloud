@@ -23,7 +23,5 @@ Suggests:
     rmarkdown,
     randomForest,
     gbm
-Remotes:
-    trestletech/plumber
 URL: https://github.com/Adamoso/xai2cloud
 VignetteBuilder: knitr
