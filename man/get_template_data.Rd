@@ -2,16 +2,18 @@
 % Please edit documentation in R/get_template_data.R
 \name{get_template_data}
 \alias{get_template_data}
-\title{Title}
+\title{Get Data From Template}
 \usage{
-get_template_data(exp_name, ...)
+get_template_data(exp_name, title)
 }
 \arguments{
-\item{...}{}
+\item{exp_name}{Explainers object or an .rda file name of an explainer}
+
+\item{title}{Title to be seen in Swagger}
 }
 \value{
-
+A list of parameters to fill the template
 }
 \description{
-Title
+Get Data From Template
 }

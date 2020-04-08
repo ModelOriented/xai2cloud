@@ -2,16 +2,13 @@
 % Please edit documentation in R/object_load.R
 \name{object_load}
 \alias{object_load}
-\title{Title}
+\title{Load An File As Object}
 \usage{
 object_load(file)
 }
 \arguments{
-\item{file}{}
-}
-\value{
-
+\item{file}{File name of an .rda file to be loaded as an object.}
 }
 \description{
-Title
+Load An File As Object
 }

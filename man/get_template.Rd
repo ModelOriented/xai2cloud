@@ -7,7 +7,7 @@
 get_template()
 }
 \value{
-
+A whisker template for the plumber R file
 }
 \description{
 Get Templates

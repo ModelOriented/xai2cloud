@@ -1,0 +1,79 @@
+---
+title: "vignette_tutorial"
+author: "Adam Rydelek"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Deployment Tutorial}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = FALSE,
+  comment = "#>",
+  warning = FALSE,
+  message = FALSE,
+  eval = FALSE
+)
+```
+
+# Setup dependencies
+
+Firstly, install/update all the necessary dependencies. It is crucial that you use **github development version of plumber** in order to deploy the API to the cloud. For local use only the CRAN version is sufficient.
+
+```{r eval = FALSE}
+# install plumber from github
+devtools::install_github("trestletech/plumber")
+# update main dependencies
+install.packages("ingredients")
+install.packages("iBreakDown")
+install.packages("readr")
+install.packages("whisker")
+# packages for explainer objects
+install.packages("DALEX")
+```
+
+# Deploy the explainer locally
+
+```{r}
+library("xai2cloud")
+library("DALEX")
+library("randomForest")
+
+# Load data
+titanic <- na.omit(DALEX::titanic)
+# Create a random forest model
+model_titanic_rf <- randomForest(survived == "yes" ~ gender + age + class + embarked +
+                                   fare + sibsp + parch,  data = titanic)
+# Create an DALEX explainer
+explain_titanic_rf <- DALEX::explain(model_titanic_rf, 
+                      data = titanic[,-9],
+                      y = titanic$survived == "yes", 
+                      label = "Random Forest v7",
+                      colorize = FALSE)
+# Deploy the explainer
+deploy_explainer(explain_titanic_rf, title="Vignette test", port=8080)
+```
+
+# Deploy the explainer to DigitalOcean
+
+In order to deploy the explainer to the cloud using DigitalOcean's droplets you need an DigitalOcean's account and a droplet with R version >=3.5 and corresponding packages. In order to setup the droplet properly visit the [README section on github](https://github.com/Adamoso/xai2cloud).
+
+Assuming the guide is complete and your droplet works, let's deploy it.
+```{r eval=FALSE}
+# First check whether your droplet is setup correctly by using analogsea package
+library(analogsea)
+analogsea::droplets()
+# If the setup is correct after your droplet's name there is an ID.
+# We will use the explainer from the previous, local example
+# Deploy it to your new droplet
+# Put your droplet's ID in parameter 'droplet'
+deploy_explainer(explain_titanic_rf, title="Vignette test", droplet=185232162, port=8080)
+# Your explainer is ready at: http://your_droplets_ip/explain_titanic_rf/__swagger__/
+# You can deploy multiple explainers to the same droplet, just use different names and ports
+# If you wish to delete the explainer from your droplet, use:
+plumber::do_remove_api(droplet = 185232162, path = "explain_titanic_rf", delete = TRUE)
+```
+

@@ -1,12 +1,10 @@
-#' Title
+#' Get Data From Template
 #'
-#' @param exp_name
-#' @param ...
+#' @param exp_name Explainers object or an .rda file name of an explainer
+#' @param title Title to be seen in Swagger
 #'
-#' @return
-#'
-#' @examples
-get_template_data <- function(exp_name, ...){
+#' @return A list of parameters to fill the template
+get_template_data <- function(exp_name, title){
   UseMethod("get_template_data")
 }
 
