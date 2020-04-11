@@ -34,7 +34,6 @@ install.packages("whisker")
 # packages for explainer objects
 install.packages("DALEX")
 # install packages for the used model
-install.packages("gbm")
 install.packages("randomForest")
 ```
 
@@ -57,7 +56,7 @@ explain_titanic_rf <- DALEX::explain(model_titanic_rf,
                       label = "Random Forest v7",
                       colorize = FALSE)
 # Deploy the explainer
-deploy_explainer(explain_titanic_rf, title="Vignette test", port=8080)
+deploy_explainer(explain_titanic_rf, model_package = "randomForest", title="Vignette test", port=8080)
 ```
 
 # Deploy the explainer to DigitalOcean
@@ -73,7 +72,7 @@ analogsea::droplets()
 # We will use the explainer from the previous, local example
 # Deploy it to your new droplet
 # Put your droplet's ID in parameter 'droplet'
-deploy_explainer(explain_titanic_rf, title="Vignette test", droplet=185232162, port=8080)
+deploy_explainer(explain_titanic_rf, model_package = "randomForest", title="Vignette test", droplet=185232162, port=8080)
 # Your explainer is ready at: http://your_droplets_ip/explain_titanic_rf/__swagger__/
 # You can deploy multiple explainers to the same droplet, just use different names and ports
 # If you wish to delete the explainer from your droplet, use:

@@ -1,9 +1,8 @@
 library(DALEX)
-library(gbm)
 library(iBreakDown)
-library(randomForest)
 library(ggplot2)
 library(ingredients)
+library({{{model_package}}})
 object_load <- function(file) {
 env <- new.env()
 load(file = file, envir = env)
@@ -17,7 +16,7 @@ subtitle = ""
 {{{par_check}}}
 list(new_observation = new_observation, subtitle = subtitle)
 }
-  
+
 #* @apiTitle {{{title}}}
 
 #* Using a {{{model_name}}} model
@@ -36,7 +35,7 @@ result = pr,
 raw_body = req$postBody)
 }
 
-#* Plot break down 
+#* Plot break down
 
 {{{parameter_annotations}}}
 #* @get /break_down
@@ -69,7 +68,7 @@ function(req, variable, {{{params_x}}}) {
   if (!(variable %in% c({{{params_amp}}}))) {
     variable = {{{first_param}}}
   }
-  
+
   pr <- predict(my_exp, new_observation)
   title = paste0("Prediction for ", variable, " = ", new_observation[[variable]], " is ", round(pr, 3))
   subtitle = paste0("Prediction for different values of ", variable, ":")
@@ -83,20 +82,20 @@ function(req, variable, {{{params_x}}}) {
             show_observations(cp_my_exp, variables = variable, size = 5) +
             ylab(paste0("Prediction after change in ", variable)) + facet_null() +
             xlab(variable) +
-            ggtitle(title, subtitle) + 
+            ggtitle(title, subtitle) +
             theme(plot.title = element_text(size = 12), plot.subtitle = element_text(size = 12))
   }
   if (variable %in% c({{{params_factor}}})){
     pl <- plot(cp_my_exp, only_numerical = FALSE) +
             ylab(paste0("Prediction after change in ", variable)) + facet_null() +
             xlab(variable) +
-            ggtitle(title, subtitle) + 
+            ggtitle(title, subtitle) +
             theme(plot.title = element_text(size = 12), plot.subtitle = element_text(size = 12))
   }
   print(pl)
 }
 
-#* Break down description 
+#* Break down description
 
 {{{parameter_annotations}}}
 #* @get /break_down_desc
@@ -109,11 +108,11 @@ function(req, {{{params_x}}}) {
   sp_rf <- iBreakDown::break_down(my_exp, new_observation)
   var_cont <- sp_rf$contribution
   var_name <- lapply(sp_rf$variable_name, as.character)
-  
+
   bd_desc <- rbind(var_cont, var_name)
   bd_desc <- t(bd_desc)
   bd_desc <- bd_desc[order(unlist(bd_desc[,1])),]
-  
+
   description <- paste(my_exp$label, " predicts the result of ", round(predict(my_exp, new_observation),3), " which is ", sep="")
   if(sp_rf$contribution[1]>predict(my_exp, new_observation)) description <- paste(description, "lower ", sep="")
   if(sp_rf$contribution[1]<=predict(my_exp, new_observation)) description <- paste(description, "higher ", sep="")
@@ -139,7 +138,7 @@ function(req, variable, {{{params_x}}}) {
   if (!(variable %in% c({{{params_amp}}}))) {
     variable = {{{first_param}}}
   }
-  
+
   pr <- predict(my_exp, new_observation)
   grids = list()
   grids[[variable]] = sort(unique(my_exp$data[,variable]))

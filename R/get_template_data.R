@@ -1,15 +1,16 @@
 #' Get Data From Template
 #'
-#' @param exp_name Explainers object or an .rda file name of an explainer
+#' @param exp_name DALEX explainer object or an .rda filename in your working directory containing the explainer
+#' @param model_package Package used to build the model, eg: "randomForest", "gbm"
 #' @param title Title to be seen in Swagger
 #' @return A list of parameters to fill the template
 #' @export
-get_template_data <- function(exp_name, title){
+get_template_data <- function(exp_name, model_package, title){
   UseMethod("get_template_data")
 }
 
 #' @export
-get_template_data.default <- function(exp_name, title = "xai2cloud"){
+get_template_data.default <- function(exp_name, model_package, title = "xai2cloud"){
   # Correct extension check
   # Template parameter: explain_name - explainer's .rda filename
   if(substr(exp_name, nchar(exp_name)-3, nchar(exp_name))!=".rda"){
@@ -116,12 +117,13 @@ get_template_data.default <- function(exp_name, title = "xai2cloud"){
                 , parameter_annotations = parameter_annotations
                 , params_factor = params_factor
                 , params_numeric = params_numeric
+                , model_package = model_package
   )
   return(data)
 }
 
 #' @export
-get_template_data.explainer <- function(exp_name, title = "xai2cloud"){
+get_template_data.explainer <- function(exp_name, model_package, title = "xai2cloud"){
 
   # Creating a .rda file name
   explain_name <- paste(deparse(substitute(exp_name)), ".rda", sep="")
@@ -228,6 +230,7 @@ get_template_data.explainer <- function(exp_name, title = "xai2cloud"){
                 , parameter_annotations = parameter_annotations
                 , params_factor = params_factor
                 , params_numeric = params_numeric
+                , model_package = model_package
   )
   return(data)
 }

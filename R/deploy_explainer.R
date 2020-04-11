@@ -6,6 +6,7 @@
 #' Full guide on setting up DigitalOcean's droplet and deploying to the cloud can be found on package's GitHub page.
 #'
 #' @param exp_name DALEX explainer object or an .rda filename in your working directory containing the explainer
+#' @param model_package Name of package used to build the model, eg: "randomForest", "gbm".
 #' @param droplet If you want to deploy the API locally leave the value as \code{NA}. If you want to deploy to DigitalOcean, use the droplet's ID which can be checked by using \code{analogsea::droplets()}
 #' @param port Port on which you want your API to be deployed
 #' @param deploy Boolean telling whether the plumber file is run on set port
@@ -29,21 +30,21 @@
 #' # If you want the API to deploy automatically, set deploy parameter to TRUE
 #'
 #' # Locally
-#' deploy_explainer(explain_titanic_glm,
+#' deploy_explainer(explain_titanic_glm, model_package = "stats",
 #'   title = "Titanic", port = 8070, deploy=FALSE)
 #'
 #' # To the cloud
 #'\dontrun{
 #' analogsea::droplets()
-#' deploy_explainer(explain_titanic_glm,
+#' deploy_explainer(explain_titanic_glm, model_package = "stats",
 #'   title = "Titanic", droplet = 136232162,
 #'   port = 8080)
 #'}
-deploy_explainer <- function(exp_name, droplet = NA,
+deploy_explainer <- function(exp_name, model_package, droplet = NA,
                              port = 8088, deploy = TRUE, title = "xai2cloud"){
 
   # Get data to fill the template
-  template_data <- get_template_data(exp_name, title)
+  template_data <- get_template_data(exp_name, model_package, title)
   # Get whisker template
   template <- get_template()
   # Rendering the template with provided data

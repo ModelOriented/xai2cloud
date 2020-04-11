@@ -4,10 +4,12 @@
 \alias{get_template_data}
 \title{Get Data From Template}
 \usage{
-get_template_data(exp_name, title)
+get_template_data(exp_name, model_package, title)
 }
 \arguments{
-\item{exp_name}{Explainers object or an .rda file name of an explainer}
+\item{exp_name}{DALEX explainer object or an .rda filename in your working directory containing the explainer}
+
+\item{model_package}{Package used to build the model, eg: "randomForest", "gbm"}
 
 \item{title}{Title to be seen in Swagger}
 }

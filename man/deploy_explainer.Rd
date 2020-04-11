@@ -6,6 +6,7 @@
 \usage{
 deploy_explainer(
   exp_name,
+  model_package,
   droplet = NA,
   port = 8088,
   deploy = TRUE,
@@ -14,6 +15,8 @@ deploy_explainer(
 }
 \arguments{
 \item{exp_name}{DALEX explainer object or an .rda filename in your working directory containing the explainer}
+
+\item{model_package}{Name of package used to build the model, eg: "randomForest", "gbm".}
 
 \item{droplet}{If you want to deploy the API locally leave the value as \code{NA}. If you want to deploy to DigitalOcean, use the droplet's ID which can be checked by using \code{analogsea::droplets()}}
 
@@ -44,13 +47,13 @@ explain_titanic_glm <- explain(titanic_glm,
 # If you want the API to deploy automatically, set deploy parameter to TRUE
 
 # Locally
-deploy_explainer(explain_titanic_glm,
+deploy_explainer(explain_titanic_glm, model_package = "stats",
   title = "Titanic", port = 8070, deploy=FALSE)
 
 # To the cloud
 \dontrun{
 analogsea::droplets()
-deploy_explainer(explain_titanic_glm,
+deploy_explainer(explain_titanic_glm, model_package = "stats",
   title = "Titanic", droplet = 136232162,
   port = 8080)
 }
