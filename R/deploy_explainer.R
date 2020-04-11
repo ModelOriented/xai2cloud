@@ -5,9 +5,10 @@
 #' A new folder will be created in your working directory containing a plumber R file and an .rda file of the explainer.
 #'
 #' @param exp_name DALEX explainer object or an .rda filename containing the explainer
-#' @param title Title to be seen in Swagger
 #' @param droplet If you want to deploy the API locally leave the value as \code{NA}. If you want to deploy to DigitalOcean, use the droplet's ID which can be checked by using \code{analogsea::droplets()}
 #' @param port Port on which you want your API to be deployed
+#' @param deploy Boolean telling whether the plumber file is run on set port
+#' @param title Title to be seen in Swagger
 #' @export
 #' @import plumber
 #' @import DALEX
@@ -36,7 +37,7 @@
 #' # Using an .rda explainer file, to the cloud
 #' deploy_explainer("explain_titanic_rf.rda", title = "Titanic", droplet = 185232162, port = 8080)
 #' }
-deploy_explainer <- function(exp_name, title = "xai2cloud", droplet = NA, port = 8088){
+deploy_explainer <- function(exp_name, droplet = NA, port = 8088, deploy = TRUE, title = "xai2cloud"){
 
   template_data <- get_template_data(exp_name, title)
   template <- get_template()
@@ -62,12 +63,16 @@ deploy_explainer <- function(exp_name, title = "xai2cloud", droplet = NA, port =
   if(is.na(droplet)){
     pmodel <- plumb("plumber.R")
     setwd(old_wd)
-    pmodel$run(port=port)
+    if(deploy==TRUE){
+      pmodel$run(port=port)
+    }
   }
   setwd(old_wd)
   local_path <- paste0(getwd(),"/",dir_name)
   print(local_path)
   if(!is.na(droplet)){
-    plumber::do_deploy_api(droplet = droplet, path = dir_name, localPath = local_path, swagger = TRUE, port = port)
+    if(deploy==TRUE){
+      plumber::do_deploy_api(droplet = droplet, path = dir_name, localPath = local_path, swagger = TRUE, port = port)
+    }
   }
 }

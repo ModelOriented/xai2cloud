@@ -4,16 +4,24 @@
 \alias{deploy_explainer}
 \title{Deploy An Explainer}
 \usage{
-deploy_explainer(exp_name, title = "xai2cloud", droplet = NA, port = 8088)
+deploy_explainer(
+  exp_name,
+  droplet = NA,
+  port = 8088,
+  deploy = TRUE,
+  title = "xai2cloud"
+)
 }
 \arguments{
 \item{exp_name}{DALEX explainer object or an .rda filename containing the explainer}
 
-\item{title}{Title to be seen in Swagger}
-
 \item{droplet}{If you want to deploy the API locally leave the value as \code{NA}. If you want to deploy to DigitalOcean, use the droplet's ID which can be checked by using \code{analogsea::droplets()}}
 
 \item{port}{Port on which you want your API to be deployed}
+
+\item{deploy}{Boolean telling whether the plumber file is run on set port}
+
+\item{title}{Title to be seen in Swagger}
 }
 \description{
 This function deploys an explainer as an REST API with an corresponding swagger.

@@ -43,6 +43,7 @@ test_that("Parameters were divided into numerical and factors correctly",{
   expect_equal(factors_and_numeric_file, all_params_file)
 })
 
+
 file.remove("explainer_titanic.rda")
 
 
