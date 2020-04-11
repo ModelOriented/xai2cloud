@@ -33,6 +33,9 @@ install.packages("readr")
 install.packages("whisker")
 # packages for explainer objects
 install.packages("DALEX")
+# install packages for the used model
+install.packages("gbm")
+install.packages("randomForest")
 ```
 
 # Deploy the explainer locally

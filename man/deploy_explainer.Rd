@@ -13,7 +13,7 @@ deploy_explainer(
 )
 }
 \arguments{
-\item{exp_name}{DALEX explainer object or an .rda filename containing the explainer}
+\item{exp_name}{DALEX explainer object or an .rda filename in your working directory containing the explainer}
 
 \item{droplet}{If you want to deploy the API locally leave the value as \code{NA}. If you want to deploy to DigitalOcean, use the droplet's ID which can be checked by using \code{analogsea::droplets()}}
 
@@ -25,31 +25,33 @@ deploy_explainer(
 }
 \description{
 This function deploys an explainer as an REST API with an corresponding swagger.
-Deployment can be done either locally or directly to the DigitalOcean's droplet.
 A new folder will be created in your working directory containing a plumber R file and an .rda file of the explainer.
+Deployment can be done either locally or directly to the DigitalOcean's droplet.
+Full guide on setting up DigitalOcean's droplet and deploying to the cloud can be found on package's GitHub page.
 }
 \examples{
-\dontrun{
 # Using an explainer object, locally
-# Load data
-titanic <- na.omit(DALEX::titanic)
-model_titanic_rf <- randomForest::randomForest(survived == "yes" ~ gender + age + class + embarked +
-fare + sibsp + parch,  data = titanic)
-explain_titanic_rf <- DALEX::explain(model_titanic_rf,
-data = titanic[,-9],
-y = titanic$survived == "yes",
-label = "Random Forest v7",
-colorize = FALSE)
+# Load data and create model
+model_data <- DALEX::titanic_imputed
+titanic_glm <- glm(survived ~ gender + age + fare,
+                       data = model_data, family = "binomial")
+# Create DALEX explainer
+explain_titanic_glm <- explain(titanic_glm,
+                           data = model_data,
+                           y = model_data$survived,
+                           label = "glm")
+# Deploy the API
+# If you want the API to deploy automatically, set deploy parameter to TRUE
 
-deploy_explainer(explain_titanic_rf, title = "Titanic", port = 8070)
+# Locally
+deploy_explainer(explain_titanic_glm,
+  title = "Titanic", port = 8070, deploy=FALSE)
 
-# Using an explainer object, to the cloud
-deploy_explainer(explain_titanic_rf, title = "Titanic", droplet = 185232162, port = 8070)
-
-# Using an .rda explainer file, locally
-deploy_explainer("explain_titanic_rf.rda", title = "Titanic", port = 8070)
-
-# Using an .rda explainer file, to the cloud
-deploy_explainer("explain_titanic_rf.rda", title = "Titanic", droplet = 185232162, port = 8080)
+# To the cloud
+\dontrun{
+analogsea::droplets()
+deploy_explainer(explain_titanic_glm,
+  title = "Titanic", droplet = 136232162,
+  port = 8080)
 }
 }
