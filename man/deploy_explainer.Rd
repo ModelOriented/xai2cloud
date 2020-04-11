@@ -39,7 +39,7 @@ model_data <- DALEX::titanic_imputed
 titanic_glm <- glm(survived ~ gender + age + fare,
                        data = model_data, family = "binomial")
 # Create DALEX explainer
-explain_titanic_glm <- explain(titanic_glm,
+explain_titanic_glm <- DALEX::explain(titanic_glm,
                            data = model_data,
                            y = model_data$survived,
                            label = "glm")
