@@ -47,8 +47,8 @@ function(req, {{{params_x}}}) {
   new_observation <- tmp$new_observation
   (my_exp <- object_load("{{{explain_name}}}"))
   pr <- predict(my_exp, new_observation)
-  sp_rf <- iBreakDown::break_down(my_exp, new_observation)
-  print(plot(sp_rf))
+  bd_plot <- iBreakDown::break_down(my_exp, new_observation)
+  print(plot(bd_plot))
 }
 
 
@@ -105,21 +105,13 @@ function(req, {{{params_x}}}) {
   new_observation <- tmp$new_observation
   (my_exp <- object_load("{{{explain_name}}}"))
   pr <- predict(my_exp, new_observation)
-  sp_rf <- iBreakDown::break_down(my_exp, new_observation)
-  var_cont <- sp_rf$contribution
-  var_name <- lapply(sp_rf$variable_name, as.character)
-
-  bd_desc <- rbind(var_cont, var_name)
-  bd_desc <- t(bd_desc)
-  bd_desc <- bd_desc[order(unlist(bd_desc[,1])),]
-
-  description <- paste(my_exp$label, " predicts the result of ", round(predict(my_exp, new_observation),3), " which is ", sep="")
-  if(sp_rf$contribution[1]>predict(my_exp, new_observation)) description <- paste(description, "lower ", sep="")
-  if(sp_rf$contribution[1]<=predict(my_exp, new_observation)) description <- paste(description, "higher ", sep="")
-  description <- paste(description, "than the average model prediction. The most important variable that ", sep="")
-  if(bd_desc[1,1]<0) description <- paste(description, "decreases ", sep="")
-  if(bd_desc[1,1]>=0) description <- paste(description, "increases ", sep="")
-  description <- paste(description, "the prediction is ", bd_desc[1,2], ".", sep= "")
+  bd_explain <- iBreakDown::break_down(my_exp, new_observation)
+  iBreakDown::describe(bd_explain,
+                       label = "the prediction value is",
+                       short_description = FALSE,
+                       display_values =  TRUE,
+                       display_numbers = TRUE,
+                       display_distribution_details = FALSE)
 }
 
 
@@ -144,10 +136,5 @@ function(req, variable, {{{params_x}}}) {
   grids[[variable]] = sort(unique(my_exp$data[,variable]))
   cp_my_exp <- ceteris_paribus(my_exp, new_observation,
                                    variables = variable, variable_splits = grids)
-  var_val <- cp_my_exp[,variable]
-  pred_val <- cp_my_exp$`_yhat_`
-  cp_desc <- cbind(var_val, pred_val)
-  cp_desc <- cp_desc[order(cp_desc[,1]),]
-  description <- paste(my_exp$label, " predicts the result for the selected instance of ", round(predict(my_exp, new_observation),3), ". The highest prediction occurs for the ", sep="")
-  description <- paste(description, variable, " ", cp_desc[1,1], " and the lowest for the ",variable," ", cp_desc[nrow(cp_desc),1], ".", sep="")
+  ingredients::describe(cp_my_exp, label = "the predicted result")
 }
