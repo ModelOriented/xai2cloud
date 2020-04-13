@@ -9,13 +9,13 @@ A tool to create REST API from an explainer and deploy it to the cloud with just
 
 ## Examples
 
-- [x] [Titanic (Random Forest) explainer](http://167.71.120.77/explain_titanic2/__swagger__/)
-- [x] [Covid-19 (gbm) explainer](http://167.71.120.77/sumodelcovid/__swagger__/)
-- [x] [Fifa (gbm) explainer](http://167.71.120.77/explain_fifa/__swagger__/)
+- [x] [Titanic (Random Forest) explainer](http://167.71.120.77/titanic_explainer/__swagger__/)
+- [x] [Covid-19 (gbm) explainer](http://167.71.120.77/covid19_explainer/__swagger__/)
+- [x] [Fifa (gbm) explainer](http://167.71.120.77/fifa_explainer/__swagger__/)
 
 ## Functionality
 
-The main function is called **plumb_exp(exp_name, droplet)** which creates a REST API and a swagger for it based on the explainer. If you have an *DigitalOcean* account and a droplet with installed R 3.5+ it can also deploy the model directly to the cloud. At the time it supports three post/get functionalities:
+The main function is called **deploy_explainer** which creates a REST API and a swagger for it based on the explainer. If you have an *DigitalOcean* account and a droplet with installed R 3.5+ it can also deploy the model directly to the cloud. At the time it supports five post/get functionalities:
 
 - Predict a result
 - Break Down plot
@@ -52,10 +52,13 @@ If you already have a *DigitalOcean's* droplet with an appropriate R version (3.
 
 ### How to plumb the explainer?
 
-Now you are ready to use the function **plumb_exp(exp_name, droplet)**. It requires only two parameters:
-- **exp_name** - name of an *.rda* file containing an explainer or an explainer object
+Now you are ready to use the function **deploy_explainer**. It requires only two parameters:
+- **exp_name** - name of an *.rda* file containing an explainer in your working directory or an explainer object.
+- **model_package** - name of the package used to create the explained model. The name must be accurate, letter case is important.
 - **droplet** - your *DigitalOcean's* droplet number (check it by typing ```analogsea::droplets```). If you wish to plumb it locally, set it to ```NA```.
-- **port** - port that you would like to deploy your explainer to
+- **port** - port that you would like to deploy your explainer to.
+- **deploy** - boolean telling whether the plumber file is run on set port. If set to false, plumber file will be created but not run.
+- **title** - title to be seen in Swagger.
 
 #### *DigitalOcean*
 If you put your droplet's number as an argument, you have just deployed your explainer. You can access it at:
