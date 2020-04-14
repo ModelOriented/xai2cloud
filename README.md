@@ -5,13 +5,22 @@
 [![Codecov test coverage](https://codecov.io/gh/Adamoso/xai2cloud/branch/master/graph/badge.svg)](https://codecov.io/gh/Adamoso/xai2cloud?branch=master)
 <!-- badges: end -->
 
-A tool to create REST API from an explainer and deploy it to the cloud with just one R function.
+## Overview
+
+The `xai2cloud` package **automates the process of deploying model explainers to the cloud**. Create a web API from an DALEX explainer and deploy it with just one R function. Deployment can be done either locally or directly to the **DigitalOcean's cloud**, which can be achievied after a quick setup. The whole step by step guide can be found below.
 
 ## Examples
 
 - [x] [Titanic (Random Forest) explainer](http://167.71.120.77/titanic_explainer/__swagger__/)
 - [x] [Covid-19 (gbm) explainer](http://167.71.120.77/covid19_explainer/__swagger__/)
 - [x] [Fifa (gbm) explainer](http://167.71.120.77/fifa_explainer/__swagger__/)
+
+## Installation
+
+```
+# Install the development version from GitHub:
+devtools::install_github("Adamoso/xai2cloud")
+```
 
 ## Functionality
 
@@ -52,16 +61,18 @@ If you already have a *DigitalOcean's* droplet with an appropriate R version (3.
 
 ### How to plumb the explainer?
 
-Now you are ready to use the function **deploy_explainer**. It requires only two parameters:
+Now you are ready to use the function **deploy_explainer**. It requires only two parameters to deploy locally:
 - **exp_name** - name of an *.rda* file containing an explainer in your working directory or an explainer object.
 - **model_package** - name of the package used to create the explained model. The name must be accurate, letter case is important.
+In order to deploy the explainer directly to the cloud, set up:
 - **droplet** - your *DigitalOcean's* droplet number (check it by typing ```analogsea::droplets```). If you wish to plumb it locally, set it to ```NA```.
 - **port** - port that you would like to deploy your explainer to.
+Additional parameters:
 - **deploy** - boolean telling whether the plumber file is run on set port. If set to false, plumber file will be created but not run.
 - **title** - title to be seen in Swagger.
 
 #### *DigitalOcean*
-If you put your droplet's number as an argument, you have just deployed your explainer. You can access it at:
+After using the **deploy_explainer** function with appropriate droplet's ID, you can access the web API at:
 your_droplet_ip/your_explainers_name/__swagger__/
 
 #### *Local*
