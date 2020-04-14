@@ -41,10 +41,11 @@ If you already have a *DigitalOcean's* droplet with an appropriate R version (3.
 1. If you don't have an account on *DigitalOcean*, create one [here.](https://www.digitalocean.com/)
 2. Install development version of **plumber** R package by using ```install_github("trestletech/plumber")```
 3. Install development version of **analogsea** R package by using ```remotes::install_github("sckott/analogsea")```
-4. [Create an SSH key and deploy i to DigitalOcean.](https://www.digitalocean.com/docs/droplets/how-to/add-ssh-keys/)
-5. Run ```analogsea::droplets()``` to check the connection to your *DigitalOcean's* account.
-6. Run ```plumber::do_provision()```. This will start a virtual machine (a new droplet) and install R with *plumber*.
-7. Access port 8000 on your droplet's IP. If you see a response from *plumber*, everything works so far.
+4. Install **ssh** R package by using ```install.packages("ssh")```
+5. [Create an SSH key and deploy it to DigitalOcean.](https://www.digitalocean.com/docs/droplets/how-to/add-ssh-keys/)
+6. Run ```analogsea::droplets()``` to check the connection to your *DigitalOcean's* account.
+7. Run ```plumber::do_provision(unstable=TRUE)```. This will start a virtual machine (a new droplet) and install R with develompent version of *plumber*.
+8. Access port 8000 on your droplet's IP. If you see a response from *plumber*, everything works so far.
 
 ### How to prepare your droplet?
 
@@ -64,9 +65,11 @@ If you already have a *DigitalOcean's* droplet with an appropriate R version (3.
 Now you are ready to use the function **deploy_explainer**. It requires only two parameters to deploy locally:
 - **exp_name** - name of an *.rda* file containing an explainer in your working directory or an explainer object.
 - **model_package** - name of the package used to create the explained model. The name must be accurate, letter case is important.
+
 In order to deploy the explainer directly to the cloud, set up:
 - **droplet** - your *DigitalOcean's* droplet number (check it by typing ```analogsea::droplets```). If you wish to plumb it locally, set it to ```NA```.
 - **port** - port that you would like to deploy your explainer to.
+
 Additional parameters:
 - **deploy** - boolean telling whether the plumber file is run on set port. If set to false, plumber file will be created but not run.
 - **title** - title to be seen in Swagger.
