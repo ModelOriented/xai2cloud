@@ -46,7 +46,7 @@
 <li>
   <a href="index.html">
     <span class="fas fa fas fa-home fa-lg"></span>
-     
+
   </a>
 </li>
 <li>
@@ -55,7 +55,7 @@
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     Articles
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -67,7 +67,7 @@
         <li>
   <a href="https://github.com/Adamoso/xai2cloud/">
     <span class="fab fa fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul>
@@ -78,7 +78,7 @@
 </div>
 <!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="contents col-md-9">
@@ -87,20 +87,30 @@
 <a href="#xai2cloud" class="anchor"></a>xai2cloud</h1></div>
 <!-- badges: start -->
 
-<p>A tool to create REST API from an explainer and deploy it to the cloud with just one R function.</p>
+<div id="overview" class="section level2">
+<h2 class="hasAnchor">
+<a href="#overview" class="anchor"></a>Overview</h2>
+<p>The <code>xai2cloud</code> package <strong>automates the process of deploying model explainers to the cloud</strong>. Create a web API from an DALEX explainer and deploy it with just one R function. Deployment can be done either locally or directly to the <strong>DigitalOcean's cloud</strong>, which can be achievied after a quick setup. The whole step by step guide can be found below.</p>
+</div>
 <div id="examples" class="section level2">
 <h2 class="hasAnchor">
 <a href="#examples" class="anchor"></a>Examples</h2>
 <ul>
-<li>[x] [Titanic (Random Forest) explainer](<a href="http://167.71.120.77/explain_titanic2/__swagger__/" class="uri">http://167.71.120.77/explain_titanic2/__swagger__/</a>)</li>
-<li>[x] [Covid-19 (gbm) explainer](<a href="http://167.71.120.77/sumodelcovid/__swagger__/" class="uri">http://167.71.120.77/sumodelcovid/__swagger__/</a>)</li>
-<li>[x] [Fifa (gbm) explainer](<a href="http://167.71.120.77/explain_fifa/__swagger__/" class="uri">http://167.71.120.77/explain_fifa/__swagger__/</a>)</li>
+<li><a href="http://167.71.120.77/titanic_explainer/__swagger__/" class="uri">Titanic (Random Forest) explainer</a></li>
+<li><a href="http://167.71.120.77/covid19_explainer/__swagger__/" class="uri">Covid-19 (gbm) explainer</a></li>
+<li><a href="http://167.71.120.77/fifa_explainer/__swagger__/" class="uri">Fifa (gbm) explainer</a></li>
 </ul>
+</div>
+<div id="installation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#installation" class="anchor"></a>Installation</h2>
+<pre><code><a href="https://devtools.r-lib.org//reference/remote-reexports.html"># Install the development version from GitHub:
+devtools::install_github("Adamoso/xai2cloud")</a></code></pre>
 </div>
 <div id="functionality" class="section level2">
 <h2 class="hasAnchor">
 <a href="#functionality" class="anchor"></a>Functionality</h2>
-<p>The main function is called <strong>plumb_exp(exp_name, droplet)</strong> which creates a REST API and a swagger for it based on the explainer. If you have an <em>DigitalOcean</em> account and a droplet with installed R 3.5+ it can also deploy the model directly to the cloud. At the time it supports three post/get functionalities:</p>
+<p>The main function is called <strong>deploy_explainer</strong> which creates a REST API and a swagger for it based on the explainer. If you have an <em>DigitalOcean</em> account and a droplet with installed R 3.5+ it can also deploy the model directly to the cloud. At the time it supports five post/get functionalities:</p>
 <ul>
 <li>Predict a result</li>
 <li>Break Down plot</li>
@@ -112,21 +122,21 @@
 <div id="how-to-use" class="section level2">
 <h2 class="hasAnchor">
 <a href="#how-to-use" class="anchor"></a>How to use?</h2>
-<p>If you already have a <em>DigitalOceanâs</em> droplet with an appropriate R version (3.5+) or just want to plumb the explainer locally, skip the first section below.</p>
+<p>If you already have a <em>DigitalOceana's</em> droplet with an appropriate R version (3.5+) or just want to plumb the explainer locally, skip the first section below.</p>
 <div id="how-to-create-a-new-digitalocean-droplet" class="section level3">
 <h3 class="hasAnchor">
 <a href="#how-to-create-a-new-digitalocean-droplet" class="anchor"></a>How to create a new <em>DigitalOcean</em> droplet?</h3>
 <ol>
-<li>If you donât have an account on <em>DigitalOcean</em>, create one <a href="https://www.digitalocean.com/">here.</a>
+<li>If you don't have an account on <em>DigitalOcean</em>, create one <a href="https://www.digitalocean.com/">here.</a>
 </li>
 <li>Install development version of <strong>plumber</strong> R package by using <code>install_github("trestletech/plumber")</code>
 </li>
 <li>Install development version of <strong>analogsea</strong> R package by using <code><a href="https://remotes.r-lib.org/reference/install_github.html">remotes::install_github("sckott/analogsea")</a></code>
 </li>
 <li><a href="https://www.digitalocean.com/docs/droplets/how-to/add-ssh-keys/">Create an SSH key and deploy i to DigitalOcean.</a></li>
-<li>Run <code><a href="https://rdrr.io/pkg/analogsea/man/droplets.html">analogsea::droplets()</a></code> to check the connection to your <em>DigitalOceanâs</em> account.</li>
+<li>Run <code><a href="https://rdrr.io/pkg/analogsea/man/droplets.html">analogsea::droplets()</a></code> to check the connection to your <em>DigitalOcean's</em> account.</li>
 <li>Run <code><a href="https://rdrr.io/pkg/plumber/man/do_provision.html">plumber::do_provision()</a></code>. This will start a virtual machine (a new droplet) and install R with <em>plumber</em>.</li>
-<li>Access port 8000 on your dropletâs IP. If you see a response from <em>plumber</em>, everything works so far.</li>
+<li>Access port 8000 on your droplet's IP. If you see a response from <em>plumber</em>, everything works so far.</li>
 </ol>
 </div>
 <div id="how-to-prepare-your-droplet" class="section level3">
@@ -135,7 +145,7 @@
 <ol>
 <li>Access your newly created droplet <a href="https://www.digitalocean.com/docs/droplets/how-to/connect-with-ssh/putty/">(PuTTY guide for Windows)</a> and <a href="https://www.digitalocean.com/community/tutorials/how-to-install-r-on-ubuntu-16-04-2">update R version to 3.5 or higher.</a>
 </li>
-<li>Access R on your droplet by typing R in (PuTTYâs) console.</li>
+<li>Access R on your droplet by typing R in (PuTTY's) console.</li>
 <li>Update all outdated packages. You can use the <code><a href="https://rdrr.io/r/utils/update.packages.html">update.packages()</a></code> function.</li>
 <li>Install the following packages by using <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages("package_name")</a></code>:
 <ul>
@@ -152,26 +162,32 @@
 <div id="how-to-plumb-the-explainer" class="section level3">
 <h3 class="hasAnchor">
 <a href="#how-to-plumb-the-explainer" class="anchor"></a>How to plumb the explainer?</h3>
-<p>Now you are ready to use the function <strong>plumb_exp(exp_name, droplet)</strong>. It requires only two parameters:</p>
+<p>Now you are ready to use the function <strong>deploy_explainer</strong>. It requires only two parameters to deploy locally:</p>
 <ul>
 <li>
-<strong>exp_name</strong> - name of an <em>.rda</em> file containing an explainer or an explainer object</li>
+<strong>exp_name</strong> - name of an <em>.rda</em> file containing an explainer in your working directory or an explainer object.</li>
 <li>
-<strong>droplet</strong> - your <em>DigitalOceanâs</em> droplet number (check it by typing <code><a href="https://rdrr.io/pkg/analogsea/man/droplets.html">analogsea::droplets</a></code>). If you wish to plumb it locally, set it to <code>NA</code>.</li>
+<strong>model_package</strong> - name of the package used to create the explained model. The name must be accurate, letter case is important. In order to deploy the explainer directly to the cloud, set up:</li>
 <li>
-<strong>port</strong> - port that you would like to deploy your explainer to</li>
+<strong>droplet</strong> - your <em>DigitalOcean's</em> droplet number (check it by typing <code><a href="https://rdrr.io/pkg/analogsea/man/droplets.html">analogsea::droplets</a></code>). If you wish to plumb it locally, set it to <code>NA</code>.</li>
+<li>
+<strong>port</strong> - port that you would like to deploy your explainer to. Additional parameters:</li>
+<li>
+<strong>deploy</strong> - boolean telling whether the plumber file is run on set port. If set to false, plumber file will be created but not run.</li>
+<li>
+<strong>title</strong> - title to be seen in Swagger.</li>
 </ul>
 <div id="digitalocean" class="section level4">
 <h4 class="hasAnchor">
 <a href="#digitalocean" class="anchor"></a><em>DigitalOcean</em>
 </h4>
-<p>If you put your dropletâs number as an argument, you have just deployed your explainer. You can access it at: your_droplet_ip/your_explainers_name/<strong>swagger</strong>/</p>
+<p>After using the <strong>deploy_explainer</strong> function with appropriate droplet's ID, you can access the web API at: your_droplet_ip/your_explainers_name/<strong>swagger</strong>/</p>
 </div>
 <div id="local" class="section level4">
 <h4 class="hasAnchor">
 <a href="#local" class="anchor"></a><em>Local</em>
 </h4>
-<p>If you didnât put your dropletâs number, you have started the plumberâs swagger locally. You can access it at: <a href="http://127.0.0.1:port/__swagger__/" class="uri">http://127.0.0.1:port/__swagger__/</a></p>
+<p>If you didn't put your droplet's number, you have started the plumber's swagger locally. You can access it at: <a href="http://127.0.0.1:port/__swagger__/" class="uri">http://127.0.0.1:port/__swagger__/</a></p>
 </div>
 </div>
 </div>
@@ -182,7 +198,7 @@
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/Adamoso/xai2cloud/">https://​github.com/​Adamoso/​xai2cloud/​</a>
+<li>Browse source code at <br><a href="https://github.com/Adamoso/xai2cloud/">https://github.com/Adamoso/xai2cloud/</a>
 </li>
 </ul>
 </div>
@@ -221,7 +237,7 @@
       </footer>
 </div>
 
-  
+
 
 
   </body>
