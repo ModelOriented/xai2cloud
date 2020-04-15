@@ -19,7 +19,7 @@ The `xai2cloud` package **automates the process of deploying model explainers to
 
 ```
 # Install the development version from GitHub:
-devtools::install_github("Adamoso/xai2cloud")
+devtools::install_github("ModelOriented/xai2cloud")
 ```
 
 ## Functionality
