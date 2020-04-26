@@ -82,7 +82,28 @@ deploy_explainer <- function(exp_name, model_package, droplet = NA,
   # Deploying the API to DigitalOcean
   if(!is.na(droplet)){
     if(deploy==TRUE){
-      plumber::do_deploy_api(droplet = droplet, path = dir_name, localPath = local_path, swagger = TRUE, port = port)
+      chech_droplet_id <- try(dr <- analogsea::droplet(droplet))
+      if (class(chech_droplet_id)[1] == "try-error") {
+        stop("`droplet` with such ID does not exist.\nCheck your droplets ID by running anaglosea::droplets(). \n")
+      }
+      tryCatch(plumber::do_deploy_api(droplet = droplet, path = dir_name, localPath = local_path, swagger = TRUE, port = port),
+               error = function(e){
+                 message("An connection error occurred")
+                 message("Please make sure you are using github's development version of `plumber`.")
+                 message("If you are having problems with already used address try chaning the `port` parameter.")
+                 message("If you are encounter 'ssh failed' error, remove previous version of this explainer by running:")
+                 message("plumber::do_remove_api(",droplet,",'",dir_name,"',TRUE)")
+                 stop(e)
+               },
+               warning = function(w){
+                 message("A warning occured:\n", w)
+                 message("In case you want to remove old version of the explainer, use `plumber::do_remove_api`` function.")
+               },
+               finally = {
+                 ip_addr <- dr$networks$v4[[1]]$ip_address
+               })
+      message("You have succesfully deployed an explainer to your DigitalOcean's droplet.")
+      message("Your explainer's swagger is now available at: ", ip_addr, "/", dir_name, "/__swagger__/")
     }
   }
 }
