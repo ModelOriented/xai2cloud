@@ -3,6 +3,7 @@
 S3method(get_template_data,default)
 S3method(get_template_data,explainer)
 export(deploy_explainer)
+export(do_setup)
 export(get_template)
 export(get_template_data)
 export(object_load)
