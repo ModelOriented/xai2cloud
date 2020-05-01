@@ -39,26 +39,15 @@ If you already have a *DigitalOcean's* droplet with an appropriate R version (3.
 ### How to create a new *DigitalOcean* droplet?
 
 1. If you don't have an account on *DigitalOcean*, create one [here.](https://www.digitalocean.com/)
-2. Install development version of **plumber** R package by using ```install_github("trestletech/plumber")```
-3. Install development version of **analogsea** R package by using ```remotes::install_github("sckott/analogsea")```
-4. Install **ssh** R package by using ```install.packages("ssh")```
-5. [Create an SSH key and deploy it to DigitalOcean.](https://www.digitalocean.com/docs/droplets/how-to/add-ssh-keys/)
+2. Install development version of **plumber** R package by using ```devtools::install_github("trestletech/plumber")```
+3. Install **analogsea** R package by using ```install.packages("analogsea")```
+4. Install **ssh** R package by using ```install.packages("ssh")``` /brak
+5. [Create an SSH key](https://help.github.com/en/enterprise/2.17/user/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent?fbclid=IwAR3E66nCkq5cS6BSSHvgv-tzFa9MjWL37bUgRz3DKwglTO8Zn_t6tmKwvRo)
+6. [Deploy the SSH key to DigitalOcean](https://www.digitalocean.com/docs/droplets/how-to/add-ssh-keys/to-account/)
 6. Run ```analogsea::droplets()``` to check the connection to your *DigitalOcean's* account.
-7. Run ```plumber::do_provision(unstable=TRUE)```. This will start a virtual machine (a new droplet) and install R with develompent version of *plumber*.
+7. Run ```xai2cloud::xai2cloud::do_setup(model_package = "name of package used to create the model - eg. randomForest, gbm, stats")```. This will start a virtual machine (a new droplet) and install R with develompent version of *plumber* and all needed packages: DALEX, iBreakDown, ingredients, ggplot2 and the package specified in **model_package** parameter.
 8. Access port 8000 on your droplet's IP. If you see a response from *plumber*, everything works so far.
 
-### How to prepare your droplet?
-
-8. Access your newly created droplet [(PuTTY guide for Windows)](https://www.digitalocean.com/docs/droplets/how-to/connect-with-ssh/putty/) and [update R version to 3.5 or higher.](https://www.digitalocean.com/community/tutorials/how-to-install-r-on-ubuntu-16-04-2)
-9. Access R on your droplet by typing R in (PuTTY's) console.
-10. Update all outdated packages. You can use the ```update.packages()``` function.
-11. Install the following packages by using ```install.packages("package_name")```:
-    - *DALEX*
-    - *iBreakDown*
-    - *ingredients*
-    - *ggplot2*
-    - packages containing the models you are using (eg. *gbm*, *randomForest*)
-12. **Your droplet is all set!**
 
 ### How to plumb the explainer?
 
