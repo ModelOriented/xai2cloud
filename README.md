@@ -45,7 +45,7 @@ If you already have a *DigitalOcean's* droplet with an appropriate R version (3.
 5. [Create an SSH key](https://help.github.com/en/enterprise/2.17/user/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent?fbclid=IwAR3E66nCkq5cS6BSSHvgv-tzFa9MjWL37bUgRz3DKwglTO8Zn_t6tmKwvRo)
 6. [Deploy the SSH key to DigitalOcean](https://www.digitalocean.com/docs/droplets/how-to/add-ssh-keys/to-account/)
 6. Run ```analogsea::droplets()``` to check the connection to your *DigitalOcean's* account.
-7. Run ```xai2cloud::xai2cloud::do_setup(model_package = "name of package used to create the model - eg. randomForest, gbm, stats")```. This will start a virtual machine (a new droplet) and install R with develompent version of *plumber* and all needed packages: DALEX, iBreakDown, ingredients, ggplot2 and the package specified in **model_package** parameter.
+7. Run ```xai2cloud::do_setup(model_package = "name of package used to create the model - eg. randomForest, gbm, stats")```. This will start a virtual machine (a new droplet) and install R with develompent version of *plumber* and all needed packages: DALEX, iBreakDown, ingredients, ggplot2 and the package specified in **model_package** parameter.
 8. Access port 8000 on your droplet's IP. If you see a response from *plumber*, everything works so far.
 
 
