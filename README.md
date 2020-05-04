@@ -56,8 +56,8 @@ Now you are ready to use the function **deploy_explainer**. It requires only two
 - **model_package** - name of the package used to create the explained model. The name must be accurate, letter case is important.
 
 In order to deploy the explainer directly to the cloud, set up:
-- **droplet** - your *DigitalOcean's* droplet number (check it by typing ```analogsea::droplets```). If you wish to plumb it locally, set it to ```NA```.
-- **port** - port that you would like to deploy your explainer to.
+- **droplet** - numeric - your *DigitalOcean's* droplet number (check it by typing ```analogsea::droplets```). If you wish to plumb it locally, set it to ```NA```.
+- **port** - numeric - port that you would like to deploy your explainer to.
 
 Additional parameters:
 - **deploy** - boolean telling whether the plumber file is run on set port. If set to false, plumber file will be created but not run.
