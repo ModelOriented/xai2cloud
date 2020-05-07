@@ -4,14 +4,12 @@
 \alias{do_setup}
 \title{Provision a modified DigitalOcean plumber server}
 \usage{
-do_setup(droplet, model_package, unstable = FALSE, example = TRUE, ...)
+do_setup(droplet, model_package, example = TRUE, ...)
 }
 \arguments{
 \item{droplet}{The DigitalOcean droplet that you want to provision (see [analogsea::droplet()]). If empty, a new DigitalOcean server will be created.}
 
 \item{model_package}{Name of package used to build the model, eg: "randomForest", "gbm".}
-
-\item{unstable}{If `FALSE`, will install plumber from CRAN. If `TRUE`, will install the unstable version of plumber from GitHub.}
 
 \item{example}{If `TRUE`, will deploy an example API named `hello` to the server on port 8000.}
 

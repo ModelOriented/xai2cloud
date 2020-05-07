@@ -19,7 +19,6 @@ checkAnalogSea <- function(){
 #' version and packages needed for deploying an explainer with xai2cloud.
 #' @param droplet The DigitalOcean droplet that you want to provision (see [analogsea::droplet()]). If empty, a new DigitalOcean server will be created.
 #' @param model_package Name of package used to build the model, eg: "randomForest", "gbm".
-#' @param unstable If `FALSE`, will install plumber from CRAN. If `TRUE`, will install the unstable version of plumber from GitHub.
 #' @param example If `TRUE`, will deploy an example API named `hello` to the server on port 8000.
 #' @param ... Arguments passed into the [analogsea::droplet_create()] function.
 #' @details Provisions a Ubuntu 16.04-x64 droplet with the following customizations:
@@ -38,7 +37,7 @@ checkAnalogSea <- function(){
 #'  - A 4GB swap file is created to ensure that machines with little RAM (the default) are
 #'    able to get through the necessary R package compilations.
 #' @export
-do_setup <- function(droplet, model_package, unstable=FALSE, example=TRUE, ...){
+do_setup <- function(droplet, model_package, example=TRUE, ...){
   checkAnalogSea()
 
   if (missing(droplet)){
@@ -68,7 +67,7 @@ do_setup <- function(droplet, model_package, unstable=FALSE, example=TRUE, ...){
     analogsea::debian_add_swap(droplet)
   }
   install_new_r(droplet)
-  install_plumber(droplet, unstable)
+  install_plumber(droplet)
   install_packages(droplet, model_package)
   install_api(droplet)
   install_nginx(droplet)
@@ -80,7 +79,7 @@ do_setup <- function(droplet, model_package, unstable=FALSE, example=TRUE, ...){
   invisible(droplet)
 }
 
-install_plumber <- function(droplet, unstable){
+install_plumber <- function(droplet){
   # Satisfy sodium's requirements
   analogsea::debian_apt_get_install(droplet, "libsodium-dev")
   analogsea::debian_apt_get_install(droplet, "libcurl4-openssl-dev")
