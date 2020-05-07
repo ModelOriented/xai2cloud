@@ -35,6 +35,8 @@ install.packages("whisker")
 install.packages("DALEX")
 # install packages for the used model
 install.packages("randomForest")
+# install useful packages for DigitalOcean connection
+install.packages("analogsea")
 ```
 
 # Deploy the explainer locally
@@ -61,7 +63,7 @@ deploy_explainer(explain_titanic_rf, model_package = "randomForest", title="Vign
 
 # Deploy the explainer to DigitalOcean
 
-In order to deploy the explainer to the cloud using DigitalOcean's droplets you need an DigitalOcean's account and a droplet with R version >=3.5 and corresponding packages. In order to setup the droplet properly visit the [README section on github](https://github.com/Adamoso/xai2cloud).
+In order to deploy the explainer to the cloud using DigitalOcean's droplets you need an DigitalOcean's account and a droplet with R version >=3.5 and corresponding packages. In order to setup the droplet properly visit the [README section on github](https://github.com/ModelOriented/xai2cloud).
 
 Assuming the guide is complete and your droplet works, let's deploy it.
 ```{r eval=FALSE}

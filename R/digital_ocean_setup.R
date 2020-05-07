@@ -73,11 +73,10 @@ do_setup <- function(droplet, model_package, unstable=FALSE, example=TRUE, ...){
   install_api(droplet)
   install_nginx(droplet)
   install_firewall(droplet)
-
   if (example){
     do_deploy_api(droplet, "hello", system.file("examples", "10-welcome", package="plumber"), port=8000, forward=TRUE)
   }
-
+  message("Droplet setup succesful.\nYou can now use deploy_explainer() function with this droplet's id.")
   invisible(droplet)
 }
 

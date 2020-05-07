@@ -82,6 +82,9 @@ deploy_explainer <- function(exp_name, model_package, droplet = NA,
   # Deploying the API to DigitalOcean
   if(!is.na(droplet)){
     if(deploy==TRUE){
+      if(!is.numeric(droplet)){
+        stop("`droplet` has to be numeric.\nCheck your droplets ID by running anaglosea::droplets(). \n")
+      }
       chech_droplet_id <- try(dr <- analogsea::droplet(droplet))
       if (class(chech_droplet_id)[1] == "try-error") {
         stop("`droplet` with such ID does not exist.\nCheck your droplets ID by running anaglosea::droplets(). \n")
