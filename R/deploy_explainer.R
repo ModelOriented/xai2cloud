@@ -89,6 +89,13 @@ deploy_explainer <- function(exp_name, model_package, droplet = NA,
       if (class(chech_droplet_id)[1] == "try-error") {
         stop("`droplet` with such ID does not exist.\nCheck your droplets ID by running anaglosea::droplets(). \n")
       }
+      # Install model's package on the droplet, if needed.
+      question_for_user <- paste0("Do you want to install ", model_package, " package on the droplet?\nIf you didn't install it using `do_setup` function, press 'Yes'.")
+      install_do_package <- askYesNo(question_for_user)
+      if(install_do_package){
+        analogsea::install_r_package(dr, model_package)
+      }
+      # Deploy application to the droplet.
       tryCatch(plumber::do_deploy_api(droplet = droplet, path = dir_name, localPath = local_path, swagger = TRUE, port = port),
                error = function(e){
                  message("An connection error occurred")
