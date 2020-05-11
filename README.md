@@ -39,7 +39,7 @@ If you already have a *DigitalOcean's* droplet with an appropriate R version (3.
 
 ### How to create a new *DigitalOcean* droplet?
 
-1. If you don't have an account on *DigitalOcean*, create one [here.](https://www.digitalocean.com/)
+1. If you don't have an account on *DigitalOcean*, create one [here.](https://m.do.co/c/c07558eaca11)
 2. Install development version of **plumber** R package by using ```devtools::install_github("trestletech/plumber")```
 3. Install **analogsea** R package by using ```install.packages("analogsea")```
 4. Install **ssh** R package by using ```install.packages("ssh")```
