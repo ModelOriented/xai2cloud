@@ -42,7 +42,7 @@ If you already have a *DigitalOcean's* droplet with an appropriate R version (3.
 1. If you don't have an account on *DigitalOcean*, create one [here.](https://www.digitalocean.com/)
 2. Install development version of **plumber** R package by using ```devtools::install_github("trestletech/plumber")```
 3. Install **analogsea** R package by using ```install.packages("analogsea")```
-4. Install **ssh** R package by using ```install.packages("ssh")``` /brak
+4. Install **ssh** R package by using ```install.packages("ssh")```
 5. [Create an SSH key](https://help.github.com/en/enterprise/2.17/user/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent?fbclid=IwAR3E66nCkq5cS6BSSHvgv-tzFa9MjWL37bUgRz3DKwglTO8Zn_t6tmKwvRo)
 6. [Deploy the SSH key to DigitalOcean](https://www.digitalocean.com/docs/droplets/how-to/add-ssh-keys/to-account/)
 6. Run ```analogsea::droplets()``` to check the connection to your *DigitalOcean's* account.
