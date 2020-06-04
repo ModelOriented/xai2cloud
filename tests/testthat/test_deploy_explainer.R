@@ -4,6 +4,7 @@ source("helper_file.R")
 
 test_that("All files are created",{
   # From object
+  install.packages("randomForest")
   deploy_explainer(exp_name = explainer_titanic, model_package = "randomForest", droplet = NA, deploy=FALSE)
   expect_true("exp_name" %in% list.files())
   expect_true("exp_name.rda" %in% list.files())
