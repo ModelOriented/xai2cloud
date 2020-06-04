@@ -4,7 +4,7 @@ Title: Deploys An Explainer To The Cloud
 Version: 0.1.0
 Author: Adam Rydelek <adam.rydelek@gmail.com>
 Maintainer: Adam Rydelek <adam.rydelek@gmail.com>
-Description: Deploy any DALEX explainers as an REST API either locally or to the DigitalOcean's cloud droplets. The tool allows you to create an REST API containing the following post/get hooks: predicting the result, Break Down plot, Ceteris Paribus plot, Break Down description, Ceteris Paribus description. The main function is called plumb_exp() which creates a REST API and a swagger for it based on the explainer. For more information regarding setting up DigitalOcean's account and droplet visit package's github linked below.
+Description: Deploy any DALEX explainers as an REST API either locally or to the DigitalOcean's cloud droplets. The tool allows you to create an REST API containing the following post/get hooks: predicting the result, Break Down plot, Ceteris Paribus plot, SHAP values plot, Break Down description, Ceteris Paribus description. The main function is called plumb_exp() which creates a REST API and a swagger for it based on the explainer. For more information regarding setting up DigitalOcean's account and droplet visit package's github linked below.
 License: GPL
 Encoding: UTF-8
 LazyData: true

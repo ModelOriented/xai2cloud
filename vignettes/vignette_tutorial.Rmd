@@ -65,19 +65,22 @@ deploy_explainer(explain_titanic_rf, model_package = "randomForest", title="Vign
 
 In order to deploy the explainer to the cloud using DigitalOcean's droplets you need an DigitalOcean's account and a droplet with R version >=3.5 and corresponding packages. In order to setup the droplet properly visit the [README section on github](https://github.com/ModelOriented/xai2cloud).
 
-Assuming the guide is complete and your droplet works, let's deploy it.
+Assuming the guide has been completed, let's deploy the explainer.
+
 ```{r eval=FALSE}
-# First check whether your droplet is setup correctly by using analogsea package
+# First get your droplet's id using analogsea package
 library(analogsea)
-analogsea::droplets()
-# If the setup is correct after your droplet's name there is an ID.
+my_droplets <-droplets()
+# Choose the correct droplets name - 'xai2cloudExamples' in this case
+specific_droplet <-my_droplets$xai2cloudExamples
+droplet_id <-specific_droplet$id
 # We will use the explainer from the previous, local example
 # Deploy it to your new droplet
-# Put your droplet's ID in parameter 'droplet'
-deploy_explainer(explain_titanic_rf, model_package = "randomForest", title="Vignette test", droplet=185232162, port=8080)
+deploy_explainer(explain_titanic_rf, model_package = "randomForest", title = "Vignette test", droplet = droplet_id, port=8080)
 # Your explainer is ready at: http://your_droplets_ip/explain_titanic_rf/__swagger__/
 # You can deploy multiple explainers to the same droplet, just use different names and ports
 # If you wish to delete the explainer from your droplet, use:
 plumber::do_remove_api(droplet = 185232162, path = "explain_titanic_rf", delete = TRUE)
 ```
 
+The droplet is now available at the droplet's address and will be there untill it's removal using the above mentioned plumber funtion or via [DigitalOcean's website](https://www.digitalocean.com/docs/droplets/how-to/destroy/).
