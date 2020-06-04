@@ -25,5 +25,6 @@ Suggests:
     gbm,
     covr,
     testthat
-URL: https://github.com/ModelOriented/xai2cloud
+URL: https://modeloriented.github.io/xai2cloud, https://github.com/ModelOriented/xai2cloud
+BugReports: https://github.com/ModelOriented/xai2cloud/issues
 VignetteBuilder: knitr
