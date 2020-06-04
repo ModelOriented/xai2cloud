@@ -15,6 +15,7 @@
 #' @import plumber
 #' @import DALEX
 #' @importFrom whisker whisker.render
+#' @importFrom utils askYesNo
 #' @examples
 #' # Using an explainer object, locally
 #' # Load data and create model
