@@ -144,19 +144,21 @@
 <h1 class="hasAnchor">
 <a href="#deploy-the-explainer-to-digitalocean" class="anchor"></a>Deploy the explainer to DigitalOcean</h1>
 <p>In order to deploy the explainer to the cloud using DigitalOcean’s droplets you need an DigitalOcean’s account and a droplet with R version &gt;=3.5 and corresponding packages. In order to setup the droplet properly visit the <a href="https://github.com/ModelOriented/xai2cloud">README section on github</a>.</p>
-<p>Assuming the guide is complete and your droplet works, let’s deploy it.</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="co"># First check whether your droplet is setup correctly by using analogsea package</span>
+<p>Assuming the guide has been completed, let’s deploy the explainer.</p>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="co"># First get your droplet's id using analogsea package</span>
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">analogsea</span>)
-<span class="kw pkg">analogsea</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/analogsea/man/droplets.html">droplets</a></span>()
-<span class="co"># If the setup is correct after your droplet's name there is an ID.</span>
+<span class="no">my_droplets</span> <span class="kw">&lt;-</span><span class="fu"><a href="https://rdrr.io/pkg/analogsea/man/droplets.html">droplets</a></span>()
+<span class="co"># Choose the correct droplets name - 'xai2cloudExamples' in this case</span>
+<span class="no">specific_droplet</span> <span class="kw">&lt;-</span><span class="no">my_droplets</span>$<span class="no">xai2cloudExamples</span>
+<span class="no">droplet_id</span> <span class="kw">&lt;-</span><span class="no">specific_droplet</span>$<span class="no">id</span>
 <span class="co"># We will use the explainer from the previous, local example</span>
 <span class="co"># Deploy it to your new droplet</span>
-<span class="co"># Put your droplet's ID in parameter 'droplet'</span>
-<span class="fu"><a href="../reference/deploy_explainer.html">deploy_explainer</a></span>(<span class="no">explain_titanic_rf</span>, <span class="kw">model_package</span> <span class="kw">=</span> <span class="st">"randomForest"</span>, <span class="kw">title</span><span class="kw">=</span><span class="st">"Vignette test"</span>, <span class="kw">droplet</span><span class="kw">=</span><span class="fl">185232162</span>, <span class="kw">port</span><span class="kw">=</span><span class="fl">8080</span>)
+<span class="fu"><a href="../reference/deploy_explainer.html">deploy_explainer</a></span>(<span class="no">explain_titanic_rf</span>, <span class="kw">model_package</span> <span class="kw">=</span> <span class="st">"randomForest"</span>, <span class="kw">title</span> <span class="kw">=</span> <span class="st">"Vignette test"</span>, <span class="kw">droplet</span> <span class="kw">=</span> <span class="no">droplet_id</span>, <span class="kw">port</span><span class="kw">=</span><span class="fl">8080</span>)
 <span class="co"># Your explainer is ready at: http://your_droplets_ip/explain_titanic_rf/__swagger__/</span>
 <span class="co"># You can deploy multiple explainers to the same droplet, just use different names and ports</span>
 <span class="co"># If you wish to delete the explainer from your droplet, use:</span>
 <span class="kw pkg">plumber</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/plumber/man/do_remove_api.html">do_remove_api</a></span>(<span class="kw">droplet</span> <span class="kw">=</span> <span class="fl">185232162</span>, <span class="kw">path</span> <span class="kw">=</span> <span class="st">"explain_titanic_rf"</span>, <span class="kw">delete</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
+<p>The droplet is now available at the droplet’s address and will be there untill it’s removal using the above mentioned plumber funtion or via <a href="https://www.digitalocean.com/docs/droplets/how-to/destroy/">DigitalOcean’s website</a>.</p>
 </div>
   </div>
 

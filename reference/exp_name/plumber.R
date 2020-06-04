@@ -86,6 +86,30 @@ function(req, gender = 'X',age = 'X',class = 'X',embarked = 'X',fare = 'X',sibsp
   print(plot(bd_plot))
 }
 
+#* Plot shap values
+
+#* @param gender X if missing. Factor, one of female, male
+#* @param class X if missing. Factor, one of 1st, 2nd, 3rd, deck crew, engineering crew, restaurant staff, victualling crew
+#* @param embarked X if missing. Factor, one of Belfast, Cherbourg, Queenstown, Southampton
+#* @param  age  X if missing. Numeric
+#* @param  fare  X if missing. Numeric
+#* @param  sibsp  X if missing. Numeric
+#* @param  parch  X if missing. Numeric
+#* @param  survived  X if missing. Numeric
+
+#* @get /shap
+#* @post /shap
+#* @png (width = 420, height = 250)
+function(req, gender = 'X',age = 'X',class = 'X',embarked = 'X',fare = 'X',sibsp = 'X',parch = 'X',survived = 'X') {
+
+  tmp <- get_observation(gender,age,class,embarked,fare,sibsp,parch,survived)
+  new_observation <- tmp$new_observation
+  (my_exp <- object_load("exp_name.rda"))
+  pr <- predict(my_exp, new_observation)
+  shap_plot <- iBreakDown::shap(my_exp, new_observation)
+  print(plot(shap_plot))
+}
+
 
 #* Plot ceteris paribus
 
