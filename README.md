@@ -29,6 +29,7 @@ The main function is called **deploy_explainer** which creates a REST API and a 
 
 - Predict a result
 - Break Down plot
+- SHAP values plot
 - Ceteris Paribus plot
 - Break Down description
 - Ceteris Paribus description

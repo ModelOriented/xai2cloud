@@ -51,6 +51,22 @@ function(req, {{{params_x}}}) {
   print(plot(bd_plot))
 }
 
+#* Plot shap values
+
+{{{parameter_annotations}}}
+#* @get /shap
+#* @post /shap
+#* @png (width = 420, height = 250)
+function(req, {{{params_x}}}) {
+
+  tmp <- get_observation({{{params}}})
+  new_observation <- tmp$new_observation
+  (my_exp <- object_load("{{{explain_name}}}"))
+  pr <- predict(my_exp, new_observation)
+  shap_plot <- iBreakDown::shap(my_exp, new_observation)
+  print(plot(shap_plot))
+}
+
 
 #* Plot ceteris paribus
 
