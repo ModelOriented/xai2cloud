@@ -25,7 +25,7 @@ devtools::install_github("ModelOriented/xai2cloud")
 
 ## Functionality
 
-![figures/xai2cloud_diagram.png](figures/xai2cloud_diagram.png)
+<center><img width=600 src="figures/xai2cloud_diagram.png"></center>
 
 The main function is called **deploy_explainer** which creates a REST API and a swagger for it based on the explainer. If you have an *DigitalOcean* account and a droplet with installed R 3.5+ it can also deploy the model directly to the cloud. At the time it supports five post/get functionalities:
 
