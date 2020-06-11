@@ -21,6 +21,7 @@ Suggests:
     analogsea,
     knitr,
     rmarkdown,
+    ranger,
     randomForest,
     gbm,
     covr,

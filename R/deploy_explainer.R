@@ -17,29 +17,34 @@
 #' @importFrom whisker whisker.render
 #' @importFrom utils askYesNo
 #' @examples
-#' # Using an explainer object, locally
-#' # Load data and create model
-#' model_data <- DALEX::titanic_imputed
-#' titanic_glm <- glm(survived ~ gender + age + fare,
-#'                        data = model_data, family = "binomial")
+#' # Create a model
+#' library("ranger")
+#' library("DALEX")
+#' model <- ranger(survived~., data = titanic_imputed)
+#'
 #' # Create DALEX explainer
-#' explain_titanic_glm <- DALEX::explain(titanic_glm,
-#'                            data = model_data,
-#'                            y = model_data$survived,
-#'                            label = "glm")
+#' explainer <- explain(model,
+#'                      data = titanic_imputed[,-8],
+#'                      y = titanic_imputed$survived)
+#'
 #' # Deploy the API
 #' # If you want the API to deploy automatically, set deploy parameter to TRUE
 #'
 #' # Locally
-#' deploy_explainer(explain_titanic_glm, model_package = "stats",
-#'   title = "Titanic", port = 8070, deploy=FALSE)
+#' deploy_explainer(explainer, model_package = "ranger",
+#'   port = 8070, deploy=FALSE, title = "Local Example")
 #'
 #' # To the cloud
 #'\dontrun{
-#' analogsea::droplets()
-#' deploy_explainer(explain_titanic_glm, model_package = "stats",
-#'   title = "Titanic", droplet = 136232162,
-#'   port = 8080)
+#' my_droplets <- analogsea::droplets()
+#'
+#' # Choose the correct droplets name - xai2cloudExamples in this case
+#' specific_droplet <- my_droplets$xai2cloudExamples
+#' droplet_id <- specific_droplet$id
+#'
+#' deploy_explainer(explainer, model_package = "ranger",
+#'                  droplet = droplet_id, port = 8070,
+#'                  title = "Titanic Example")
 #'}
 deploy_explainer <- function(exp_name, model_package, droplet = NA,
                              port = 8088, deploy = TRUE, title = "xai2cloud"){
