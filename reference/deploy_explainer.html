@@ -191,33 +191,32 @@ Full guide on setting up DigitalOcean's droplet and deploying to the cloud can b
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Using an explainer object, locally</span>
-<span class='co'># Load data and create model</span>
-<span class='no'>model_data</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>DALEX</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/DALEX/man/titanic.html'>titanic_imputed</a></span>
-<span class='no'>titanic_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='no'>survived</span> ~ <span class='no'>gender</span> + <span class='no'>age</span> + <span class='no'>fare</span>,
-                       <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>model_data</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>)
+    <pre class="examples"><div class='input'><span class='co'># Create a model</span>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"ranger"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"DALEX"</span>)</div><div class='output co'>#&gt; <span class='message'>Welcome to DALEX (version: 1.2.1).</span>
+#&gt; <span class='message'>Find examples and detailed introduction at: https://pbiecek.github.io/ema/</span>
+#&gt; <span class='message'>Additional features will be available after installation of: ggpubr.</span>
+#&gt; <span class='message'>Use 'install_dependencies()' to get all suggested dependencies</span></div><div class='input'><span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>survived</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>)
+
 <span class='co'># Create DALEX explainer</span>
-<span class='no'>explain_titanic_glm</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>DALEX</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>titanic_glm</span>,
-                           <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>model_data</span>,
-                           <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>model_data</span>$<span class='no'>survived</span>,
-                           <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"glm"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label       :  glm 
-#&gt;   -&gt; data              :  2207  rows  8  cols 
+<span class='no'>explainer</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>model</span>,
+                     <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>[,-<span class='fl'>8</span>],
+                     <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>$<span class='no'>survived</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+#&gt;   -&gt; model label       :  ranger  ( <span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; data              :  2207  rows  7  cols 
 #&gt;   -&gt; target variable   :  2207  values 
-#&gt;   -&gt; model_info        :  package stats , ver. 4.0.0 , task classification ( <span style='color: #BBBB00;'> default </span><span> ) 
-#&gt;   -&gt; predict function  :  yhat.glm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1490412 , mean =  0.3221568 , max =  0.9878987  
+#&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; predicted values  :  numerical, min =  0.008119304 , mean =  0.3220239 , max =  0.9921745  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.8898433 , mean =  4.198546e-13 , max =  0.8448637  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='co'># Deploy the API</span>
+#&gt;   -&gt; residuals         :  numerical, min =  -0.78242 , mean =  0.0001329206 , max =  0.8842242  
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
+<span class='co'># Deploy the API</span>
 <span class='co'># If you want the API to deploy automatically, set deploy parameter to TRUE</span>
 
 <span class='co'># Locally</span>
-<span class='fu'>deploy_explainer</span>(<span class='no'>explain_titanic_glm</span>, <span class='kw'>model_package</span> <span class='kw'>=</span> <span class='st'>"stats"</span>,
-  <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"Titanic"</span>, <span class='kw'>port</span> <span class='kw'>=</span> <span class='fl'>8070</span>, <span class='kw'>deploy</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: 'exp_name' already exists</span></div><div class='output co'>#&gt; <span class='message'>Welcome to DALEX (version: 1.2.1).</span>
-#&gt; <span class='message'>Find examples and detailed introduction at: https://pbiecek.github.io/ema/</span>
-#&gt; <span class='message'>Additional features will be available after installation of: ggpubr.</span>
-#&gt; <span class='message'>Use 'install_dependencies()' to get all suggested dependencies</span></div><div class='output co'>#&gt; <span class='message'></span>
+<span class='fu'>deploy_explainer</span>(<span class='no'>explainer</span>, <span class='kw'>model_package</span> <span class='kw'>=</span> <span class='st'>"ranger"</span>,
+  <span class='kw'>port</span> <span class='kw'>=</span> <span class='fl'>8070</span>, <span class='kw'>deploy</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"Local Example"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: 'exp_name' already exists</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Attaching package: ‘ingredients’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:iBreakDown’:</span>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    describe, plotD3</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:DALEX’:</span>
@@ -225,10 +224,15 @@ Full guide on setting up DigitalOcean's droplet and deploying to the cloud can b
 #&gt; <span class='message'>    feature_importance</span></div><div class='input'>
 <span class='co'># To the cloud</span>
 <span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='kw pkg'>analogsea</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/analogsea/man/droplets.html'>droplets</a></span>()
-<span class='fu'>deploy_explainer</span>(<span class='no'>explain_titanic_glm</span>, <span class='kw'>model_package</span> <span class='kw'>=</span> <span class='st'>"stats"</span>,
-  <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"Titanic"</span>, <span class='kw'>droplet</span> <span class='kw'>=</span> <span class='fl'>136232162</span>,
-  <span class='kw'>port</span> <span class='kw'>=</span> <span class='fl'>8080</span>)
+<span class='no'>my_droplets</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>analogsea</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/analogsea/man/droplets.html'>droplets</a></span>()
+
+<span class='co'># Choose the correct droplets name - xai2cloudExamples in this case</span>
+<span class='no'>specific_droplet</span> <span class='kw'>&lt;-</span> <span class='no'>my_droplets</span>$<span class='no'>xai2cloudExamples</span>
+<span class='no'>droplet_id</span> <span class='kw'>&lt;-</span> <span class='no'>specific_droplet</span>$<span class='no'>id</span>
+
+<span class='fu'>deploy_explainer</span>(<span class='no'>explainer</span>, <span class='kw'>model_package</span> <span class='kw'>=</span> <span class='st'>"ranger"</span>,
+                 <span class='kw'>droplet</span> <span class='kw'>=</span> <span class='no'>droplet_id</span>, <span class='kw'>port</span> <span class='kw'>=</span> <span class='fl'>8070</span>,
+                 <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"Titanic Example"</span>)
 }</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

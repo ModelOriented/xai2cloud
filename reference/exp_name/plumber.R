@@ -2,13 +2,13 @@ library(DALEX)
 library(iBreakDown)
 library(ggplot2)
 library(ingredients)
-library(stats)
+library(ranger)
 object_load <- function(file) {
 env <- new.env()
 load(file = file, envir = env)
 env[[ls(env)[1]]]
 }
-get_observation <- function(gender = 'X',age = 'X',class = 'X',embarked = 'X',fare = 'X',sibsp = 'X',parch = 'X',survived = 'X') {
+get_observation <- function(gender = 'X',age = 'X',class = 'X',embarked = 'X',fare = 'X',sibsp = 'X',parch = 'X') {
  gender_ok <- c('female', 'male') 
  class_ok <- c('1st', '2nd', '3rd', 'deck crew', 'engineering crew', 'restaurant staff', 'victualling crew') 
  embarked_ok <- c('Belfast', 'Cherbourg', 'Queenstown', 'Southampton') 
@@ -30,15 +30,13 @@ subtitle = ""
    subtitle <- paste(subtitle, '  sibsp:', sibsp)}
  if(parch != 'X') {   new_observation[,'parch'] <- as.numeric(as.character(parch))
    subtitle <- paste(subtitle, '  parch:', parch)}
- if(survived != 'X') {   new_observation[,'survived'] <- as.numeric(as.character(survived))
-   subtitle <- paste(subtitle, '  survived:', survived)}
 
 list(new_observation = new_observation, subtitle = subtitle)
 }
 
-#* @apiTitle Titanic
+#* @apiTitle Local Example
 
-#* Using a glm model
+#* Using a ranger model
 
 #* @param gender X if missing. Factor, one of female, male
 #* @param class X if missing. Factor, one of 1st, 2nd, 3rd, deck crew, engineering crew, restaurant staff, victualling crew
@@ -47,12 +45,11 @@ list(new_observation = new_observation, subtitle = subtitle)
 #* @param  fare  X if missing. Numeric
 #* @param  sibsp  X if missing. Numeric
 #* @param  parch  X if missing. Numeric
-#* @param  survived  X if missing. Numeric
 
 #* @get /predict
 #* @post /predict
-function(req, gender = 'X',age = 'X',class = 'X',embarked = 'X',fare = 'X',sibsp = 'X',parch = 'X',survived = 'X') {
-tmp <- get_observation(gender,age,class,embarked,fare,sibsp,parch,survived)
+function(req, gender = 'X',age = 'X',class = 'X',embarked = 'X',fare = 'X',sibsp = 'X',parch = 'X') {
+tmp <- get_observation(gender,age,class,embarked,fare,sibsp,parch)
 new_observation <- tmp$new_observation
 (my_exp <- object_load("exp_name.rda"))
 pr <- predict(my_exp, new_observation)
@@ -71,14 +68,13 @@ raw_body = req$postBody)
 #* @param  fare  X if missing. Numeric
 #* @param  sibsp  X if missing. Numeric
 #* @param  parch  X if missing. Numeric
-#* @param  survived  X if missing. Numeric
 
 #* @get /break_down
 #* @post /break_down
 #* @png (width = 420, height = 250)
-function(req, gender = 'X',age = 'X',class = 'X',embarked = 'X',fare = 'X',sibsp = 'X',parch = 'X',survived = 'X') {
+function(req, gender = 'X',age = 'X',class = 'X',embarked = 'X',fare = 'X',sibsp = 'X',parch = 'X') {
 
-  tmp <- get_observation(gender,age,class,embarked,fare,sibsp,parch,survived)
+  tmp <- get_observation(gender,age,class,embarked,fare,sibsp,parch)
   new_observation <- tmp$new_observation
   (my_exp <- object_load("exp_name.rda"))
   pr <- predict(my_exp, new_observation)
@@ -95,14 +91,13 @@ function(req, gender = 'X',age = 'X',class = 'X',embarked = 'X',fare = 'X',sibsp
 #* @param  fare  X if missing. Numeric
 #* @param  sibsp  X if missing. Numeric
 #* @param  parch  X if missing. Numeric
-#* @param  survived  X if missing. Numeric
 
 #* @get /shap
 #* @post /shap
 #* @png (width = 420, height = 250)
-function(req, gender = 'X',age = 'X',class = 'X',embarked = 'X',fare = 'X',sibsp = 'X',parch = 'X',survived = 'X') {
+function(req, gender = 'X',age = 'X',class = 'X',embarked = 'X',fare = 'X',sibsp = 'X',parch = 'X') {
 
-  tmp <- get_observation(gender,age,class,embarked,fare,sibsp,parch,survived)
+  tmp <- get_observation(gender,age,class,embarked,fare,sibsp,parch)
   new_observation <- tmp$new_observation
   (my_exp <- object_load("exp_name.rda"))
   pr <- predict(my_exp, new_observation)
@@ -121,18 +116,17 @@ function(req, gender = 'X',age = 'X',class = 'X',embarked = 'X',fare = 'X',sibsp
 #* @param  fare  X if missing. Numeric
 #* @param  sibsp  X if missing. Numeric
 #* @param  parch  X if missing. Numeric
-#* @param  survived  X if missing. Numeric
 
 #* @get /ceteris_paribus
 #* @post /ceteris_paribus
 #* @png (width = 420, height = 250)
-function(req, variable, gender = 'X',age = 'X',class = 'X',embarked = 'X',fare = 'X',sibsp = 'X',parch = 'X',survived = 'X') {
+function(req, variable, gender = 'X',age = 'X',class = 'X',embarked = 'X',fare = 'X',sibsp = 'X',parch = 'X') {
 
-  tmp <- get_observation(gender,age,class,embarked,fare,sibsp,parch,survived)
+  tmp <- get_observation(gender,age,class,embarked,fare,sibsp,parch)
   new_observation <- tmp$new_observation
   (my_exp <- object_load("exp_name.rda"))
 
-  if (!(variable %in% c('gender','age','class','embarked','fare','sibsp','parch','survived'))) {
+  if (!(variable %in% c('gender','age','class','embarked','fare','sibsp','parch'))) {
     variable = 'gender'
   }
 
@@ -144,7 +138,7 @@ function(req, variable, gender = 'X',age = 'X',class = 'X',embarked = 'X',fare =
   cp_my_exp <- ceteris_paribus(my_exp, new_observation,
                                    variables = variable, variable_splits = grids)
 
-  if (variable %in% c('age','fare','sibsp','parch','survived')) {
+  if (variable %in% c('age','fare','sibsp','parch')) {
     pl <- plot(cp_my_exp) +
             show_observations(cp_my_exp, variables = variable, size = 5) +
             ylab(paste0("Prediction after change in ", variable)) + facet_null() +
@@ -171,12 +165,11 @@ function(req, variable, gender = 'X',age = 'X',class = 'X',embarked = 'X',fare =
 #* @param  fare  X if missing. Numeric
 #* @param  sibsp  X if missing. Numeric
 #* @param  parch  X if missing. Numeric
-#* @param  survived  X if missing. Numeric
 
 #* @get /break_down_desc
 #* @post /break_down_desc
-function(req, gender = 'X',age = 'X',class = 'X',embarked = 'X',fare = 'X',sibsp = 'X',parch = 'X',survived = 'X') {
-  tmp <- get_observation(gender,age,class,embarked,fare,sibsp,parch,survived)
+function(req, gender = 'X',age = 'X',class = 'X',embarked = 'X',fare = 'X',sibsp = 'X',parch = 'X') {
+  tmp <- get_observation(gender,age,class,embarked,fare,sibsp,parch)
   new_observation <- tmp$new_observation
   (my_exp <- object_load("exp_name.rda"))
   pr <- predict(my_exp, new_observation)
@@ -200,17 +193,16 @@ function(req, gender = 'X',age = 'X',class = 'X',embarked = 'X',fare = 'X',sibsp
 #* @param  fare  X if missing. Numeric
 #* @param  sibsp  X if missing. Numeric
 #* @param  parch  X if missing. Numeric
-#* @param  survived  X if missing. Numeric
 
 #* @get /ceteris_paribus_desc
 #* @post /ceteris_paribus_desc
-function(req, variable, gender = 'X',age = 'X',class = 'X',embarked = 'X',fare = 'X',sibsp = 'X',parch = 'X',survived = 'X') {
+function(req, variable, gender = 'X',age = 'X',class = 'X',embarked = 'X',fare = 'X',sibsp = 'X',parch = 'X') {
 
-  tmp <- get_observation(gender,age,class,embarked,fare,sibsp,parch,survived)
+  tmp <- get_observation(gender,age,class,embarked,fare,sibsp,parch)
   new_observation <- tmp$new_observation
   (my_exp <- object_load("exp_name.rda"))
 
-  if (!(variable %in% c('gender','age','class','embarked','fare','sibsp','parch','survived'))) {
+  if (!(variable %in% c('gender','age','class','embarked','fare','sibsp','parch'))) {
     variable = 'gender'
   }
 
