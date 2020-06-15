@@ -14,7 +14,6 @@ The `xai2cloud` package **automates the process of deploying model explainers to
 
 - [x] [Titanic (Random Forest) explainer](http://167.172.203.24/titanic_explainer/__swagger__/)
 - [x] [Apartments (Linear Model) explainer](http://167.172.203.24/apartments_explainer/__swagger__/)
-- [x] [Covid-19 (gbm) explainer](http://167.71.120.77/covid19_explainer/__swagger__/)
 
 ## Installation
 
