@@ -24,10 +24,10 @@ bibliography: paper.bib
 # Introduction
 
 Machine learning models are utilized in nearly every field of science and business. 
-The growing number of excellent libraries for R and Python simplify and automate the process of building of  ML models. It is becoming easier and easier to build a model locally, but sharing the model is still a challenge. Model deployment is an essential part of the life cycle of any machine learning model [@crisp10]. The goal of the `xai2cloud` library is to automate the last mile of model life-cycle. The library works in a model-agnostic fashion, independently of the internal model structure. It transforms any predictive model into a RESTfull service automatically deployed in the cloud.
+The growing number of excellent libraries for R and Python simplify and automate the process of building of  ML models. It is becoming easier and easier to build a model locally, but sharing the model is still a challenge. Model deployment is an essential part of the life cycle of any machine learning model [@crisp10]. The goal of the `xai2cloud` library is to automate the last mile of the model life-cycle. The library works in a model-agnostic fashion, independently of the internal model structure. It transforms any predictive model into a RESTfull service automatically deployed in the cloud.
 
 Created API allows not only to query the model on new points but also generates instance-level explanations of the reasons behind the value of a specific prediction.
-With the arising interest in eXplainable Artificial Intelligence (XAI) many tools for exploring machine learning models emerged. Among the most popular solutions `SHAP` [@Lundberg:2017], `DALEX` [@Biecek:2018] or the `What-If` [@Wexler:2019]. These libraries are very useful for building or debugging a model, but they are not integrated with the model deployment on production. The `xai2cloud` package treats explainability as an integral component of model functioning, offering the most popular XAI methods available with the same interface as model predictions.
+With the arising interest in eXplainable Artificial Intelligence (XAI) many tools for exploring machine learning models emerged. Among the most popular solutions `SHAP` [@Lundberg:2017], `DALEX` [@Biecek:2018], or the `What-If` [@Wexler:2019] should be mentioned. These libraries are very useful for building or debugging a model, but they are not integrated with the model deployment on production. The `xai2cloud` package treats explainability as an integral component of model functioning, offering the most popular XAI methods available with the same interface as model predictions.
 
 There are also other libraries in R to explore the model, such as `modelStudio` [@Baniecki:2019] (for precalculated statistics for serverless exploration), `archivist` [@Archivist:2017] (a database of meta-features of objects allowing for easier model searching and governance), `trackr` [@Becker] (focused on the reproducibility of models), `modelDown` [@Romaszko2019] (automatically generated documentation for the model in HTML static page), `workflowr` (automation of model construction) and many others. 
 But `xai2could` is the only package that allows you to interact with a live model and share models that are not frozen copies but working functions that can be combined with other cloud-based solutions.
@@ -45,7 +45,7 @@ The solution used for cloud computing is [DigitalOcean](https://www.digitalocean
 
 After the initial setup, the deployment process is instant and intuitive. The package can deploy any model wrapped into an explainer with one R function. Explainers are adapters available for predictive models created using the DALEX package. Deployed model is subsequently available on the server with XAI features enabling thorough exploration.
 
-![Architecture of two main functions in `xai2cloud` package. `do_setup` configures new cloud environment, `deploy_explainer` adds model to the configured droplet.](diagram.png)
+![Architecture of two main functions in `xai2cloud` package. `do_setup` configures a new cloud environment, `deploy_explainer` adds model to the configured droplet.](diagram.png)
 
 # Deployment example
 
@@ -91,7 +91,7 @@ deploy_explainer(exp_name, model_package = 'ranger',
 
 # Features overview
 
-The deployed explainer is active as an application compliant to the representational state transfer architecture operating on the droplet's server [@REST:2000]. It hosts five POST and GET hooks in total enabling the user to explore the model and its predictions. The features provided include not only a basic prediction of inputted data but also local model explanations:
+The deployed explainer is active as an application compliant to the representational state transfer architecture operating on the droplet's server [@REST:2000]. It hosts six POST and GET hooks in total enabling the user to explore the model and its predictions. The features provided include not only a basic prediction of inputted data but also local model explanations:
 
 ![An example of Break Down (1), SHAP (2) and Ceteris Paribus (3) plots generated by the API for a Titanic ranger model \label{fig:plots}](plots.png)
 
@@ -109,11 +109,11 @@ The deployed explainer is active as an application compliant to the representati
 
 ![Basic illustration of Swagger UI created for an example Titanic model using xai2cloud \label{fig:swagger}](api.png)
 
-The RESTful API created by xai2cloud can be utilized in various ways. There is a built-in Swagger User Interface (\autoref{fig:swagger}) available at the droplet's server. Swagger is a set of open-source tools that enhance REST application building process. One of the tools available is Swagger UI which presents interactive API documentation. Therefore it can be used as a basic standalone solution for sharing predictive models results. It can be then easily used in much more complex projects. The xai2cloud package can deploy multiple models on one droplet without any further configuration enables the users to create applications gathering model data from the whole organization. The package is built in a way to encourage using it as an external data source for projects concerning predictive modelling.
+The RESTful API created by xai2cloud can be utilized in various ways. There is a built-in Swagger User Interface (\autoref{fig:swagger}) available at the droplet's server. Swagger is a set of open-source tools that enhance REST application building process. One of the tools available is Swagger UI which presents interactive API documentation. Therefore it can be used as a basic standalone solution for sharing predictive models results. It can be then easily used in much more complex projects. The xai2cloud package can deploy multiple models on one droplet without any further configuration, allowing users to create applications gathering model data from the whole organization. The package is built in a way to encourage using it as an external data source for projects concerning predictive modeling.
 
 # Summary
 
-The `xai2cloud` package offers a new perspective on sharing the predictive model's. It enables cloud deployment of artificial intelligence solutions while reducing the setup technological entry threshold to the minimum. Enabling users to view and understand the predictive model is the end goal of explainable artificial intelligence. This objective can be achieved using built-in local explanation features and plots from the `xai2cloud` package. The package is in constant development and the features list is going to expand over time. Updates and more examples can be found on [GitHub ModelOriented/xai2cloud repository](https://github.com/ModelOriented/xai2cloud) of the project and the [modeloriented.github.io/xai2cloud website](https://modeloriented.github.io/xai2cloud/).
+The `xai2cloud` package offers a new perspective on sharing the predictive models. It enables cloud deployment of artificial intelligence solutions while reducing the setup technological entry threshold to the minimum. Enabling users to view and understand the predictive model is the end goal of explainable artificial intelligence. This objective can be achieved using built-in local explanation features and plots from the `xai2cloud` package. The package is in constant development and the features list is going to expand over time. Updates and more examples can be found on [GitHub ModelOriented/xai2cloud repository](https://github.com/ModelOriented/xai2cloud) of the project and the [modeloriented.github.io/xai2cloud website](https://modeloriented.github.io/xai2cloud/).
 
 
 # Acknowledgements
