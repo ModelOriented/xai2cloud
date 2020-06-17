@@ -1,8 +1,8 @@
 # xai2cloud
 
 <!-- badges: start -->
-[![Codecov test coverage](https://codecov.io/gh/ModelOriented/xai2cloud/branch/master/graph/badge.svg)](https://codecov.io/gh/ModelOriented/xai2cloud?branch=master)
 [![R build status](https://github.com/ModelOriented/xai2cloud/workflows/R-CMD-check/badge.svg)](https://github.com/ModelOriented/xai2cloud/actions?query=workflow%3AR-CMD-check)
+[![Codecov test coverage](https://codecov.io/gh/ModelOriented/xai2cloud/branch/master/graph/badge.svg)](https://codecov.io/gh/ModelOriented/xai2cloud?branch=master)
 <!-- badges: end -->
 
 ## Overview
